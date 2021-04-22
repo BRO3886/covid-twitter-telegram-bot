@@ -43,8 +43,8 @@ func SearchV2() []string {
 
 	messages := []string{}
 	for _, tweet := range tweets {
-		fmt.Println(tweet.Text)
 		message := fmt.Sprintf("https://twitter.com/%s/status/%s\n", tweet.AuthorID, tweet.ID)
+		fmt.Println(message)
 		message += strings.Replace(tweet.Text, "RT ", "", 1)
 		messages = append(messages, message)
 	}
