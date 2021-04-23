@@ -18,7 +18,7 @@ func main() {
 		ChatId:   os.Getenv("TG_CHAT_ID"),
 	}
 
-	// _ = pkg.TwtCredentials{
+	// creds := pkg.TwtCredentials{
 	// 	AccessToken:       os.Getenv("TWITTER_ACCESS_TOKEN"),
 	// 	AccessTokenSecret: os.Getenv("TWITTER_ACCESS_SECRET"),
 	// 	ConsumerKey:       os.Getenv("TWITTER_API_KEY"),
@@ -38,5 +38,4 @@ func main() {
 		time.Sleep(time.Minute * 5)
 	}
 
-	// pkg.PostTelegram(tel)
 }
