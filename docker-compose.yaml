@@ -1,0 +1,26 @@
+version: "3.7"
+
+networks:
+    backend:
+
+services:
+    app:
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        command: ["/app/main"]  
+        container_name: app
+        ports: 
+            - 8000:8000
+        restart: always
+        env_file: .env
+        environment: 
+          - TG_BOT_TOKEN = ${TG_BOT_TOKEN}
+          - TG_CHAT_ID = ${TG_CHAT_ID}
+          - TWITTER_API_KEY = ${TWITTER_API_KEY}
+          - TWITTER_API_SECRET = ${TWITTER_API_SECRET}
+          - TWITTER_BEARER_TOKEN = ${TWITTER_BEARER_TOKEN}
+          - TWITTER_ACCESS_TOKEN = ${TWITTER_ACCESS_TOKEN}
+          - TWITTER_ACCESS_SECRET = ${TWITTER_ACCESS_SECRET}
+        networks:
+            - backend
