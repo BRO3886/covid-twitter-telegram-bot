@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	twitter "github.com/g8rswimmer/go-twitter/v2"
 )
@@ -32,9 +33,15 @@ func SearchV2() []string {
 	opts := twitter.TweetRecentSearchOpts{
 		Expansions:  []twitter.Expansion{twitter.ExpansionEntitiesMentionsUserName, twitter.ExpansionAuthorID},
 		TweetFields: []twitter.TweetField{twitter.TweetFieldCreatedAt, twitter.TweetFieldConversationID, twitter.TweetFieldText},
+		StartTime:   time.Now().Add(-time.Hour * 3),
 	}
 
-	tweetResponse, err := client.TweetRecentSearch(context.Background(), `verified (Delhi OR Noida OR GURGAON) (bed OR beds OR icu OR oxygen OR ventilator OR ventilators or plasma) available -"not verified" -"unverified" -"needed" -"need" -"required "`, opts)
+	reqStrings := []string{
+		`verified(Delhi OR Noida OR GURGAON) (bed OR beds OR icu OR oxygen OR ventilator OR ventilators or plasma) available -"not verified" -"unverified" -"needed" -"need" -"required "`,
+		`verified (Indore) (icu OR ventilator OR ventilators ) available -"not verified" -"unverified" -"needed" -"need" -"required "`,
+	}
+
+	tweetResponse, err := client.TweetRecentSearch(context.Background(), reqStrings[0], opts)
 	if err != nil {
 		log.Panicf("tweet lookup error: %v", err)
 	}

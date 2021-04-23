@@ -13,6 +13,7 @@ func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Panic(err)
 	}
+
 	bot := pkg.Telegram{
 		BotToken: os.Getenv("TG_BOT_TOKEN"),
 		ChatId:   os.Getenv("TG_CHAT_ID"),
