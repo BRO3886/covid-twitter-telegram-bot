@@ -34,7 +34,7 @@ func SearchV2() []string {
 		TweetFields: []twitter.TweetField{twitter.TweetFieldCreatedAt, twitter.TweetFieldConversationID, twitter.TweetFieldText},
 	}
 
-	tweetResponse, err := client.TweetRecentSearch(context.Background(), `verified Noida (bed OR beds OR icu OR oxygen OR ventilator OR ventilators or plasma) -"not verified" -"unverified" -"needed" -"required -filter:retweets"`, opts)
+	tweetResponse, err := client.TweetRecentSearch(context.Background(), `verified Noida (bed OR beds OR icu OR oxygen OR ventilator OR ventilators or plasma) available -"not verified" -"unverified" -"needed" -"need" -"required "`, opts)
 	if err != nil {
 		log.Panicf("tweet lookup error: %v", err)
 	}
