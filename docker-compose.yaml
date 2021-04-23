@@ -15,12 +15,12 @@ services:
         restart: always
         env_file: .env
         environment: 
-          - TG_BOT_TOKEN = ${TG_BOT_TOKEN}
-          - TG_CHAT_ID = ${TG_CHAT_ID}
-          - TWITTER_API_KEY = ${TWITTER_API_KEY}
-          - TWITTER_API_SECRET = ${TWITTER_API_SECRET}
-          - TWITTER_BEARER_TOKEN = ${TWITTER_BEARER_TOKEN}
-          - TWITTER_ACCESS_TOKEN = ${TWITTER_ACCESS_TOKEN}
-          - TWITTER_ACCESS_SECRET = ${TWITTER_ACCESS_SECRET}
+          - TG_BOT_TOKEN=${TG_BOT_TOKEN}
+          - TG_CHAT_ID=${TG_CHAT_ID}
+          - TWITTER_API_KEY=${TWITTER_API_KEY}
+          - TWITTER_API_SECRET=${TWITTER_API_SECRET}
+          - TWITTER_BEARER_TOKEN=${TWITTER_BEARER_TOKEN}
+          - TWITTER_ACCESS_TOKEN=${TWITTER_ACCESS_TOKEN}
+          - TWITTER_ACCESS_SECRET=${TWITTER_ACCESS_SECRET}
         networks:
             - backend
