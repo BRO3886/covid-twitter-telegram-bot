@@ -25,11 +25,11 @@ func main() {
 		// log.Println(data)
 		for _, msg := range data {
 			if msg.HasURL {
-				go pkg.PostTelegramImage(bot, msg.URL, msg.Message)
+				pkg.PostTelegramImage(bot, msg.URL, msg.Message)
 			} else {
 				pkg.PostTelegramMessage(bot, msg.Message)
 			}
-			time.Sleep(time.Second * 3)
+			time.Sleep(time.Second * 4)
 		}
 
 		time.Sleep(time.Minute * 2)
