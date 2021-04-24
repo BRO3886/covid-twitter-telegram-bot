@@ -29,7 +29,7 @@ func main() {
 			} else {
 				go pkg.PostTelegramMessage(bot, msg.Message)
 			}
-			time.Sleep(time.Second * 1)
+			time.Sleep(time.Second * 3)
 		}
 
 		time.Sleep(time.Minute * 2)
