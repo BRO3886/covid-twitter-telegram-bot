@@ -40,12 +40,7 @@ func PostTelegramMessage(tel Telegram, msg string) {
 	if err != nil {
 		log.Error("Error in response: ", err.Error())
 	}
-
-	if resp.StatusCode == http.StatusOK {
-		log.Info("message sent")
-	} else {
-		log.Warn("message not sent")
-	}
+	checkResponse(resp, "", msg)
 }
 
 func PostTelegramImage(tel Telegram, imgURL, caption string) {
@@ -75,14 +70,17 @@ func PostTelegramImage(tel Telegram, imgURL, caption string) {
 	if err != nil {
 		log.Error("Error in response: ", err.Error())
 	}
+	checkResponse(resp, imgURL, caption)
+}
 
+func checkResponse(resp *http.Response, imgURL, message string) {
 	if resp.StatusCode == http.StatusOK {
 		log.Info("message sent")
 	} else {
 		log.Warn("message not sent: ", resp.StatusCode)
 		log.Info("url was: ", imgURL)
+		log.Info("message was: ", message)
 		bbytes, _ := ioutil.ReadAll(resp.Body)
 		log.Error(string(bbytes))
 	}
-
 }

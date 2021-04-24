@@ -27,7 +27,7 @@ func main() {
 			if msg.HasURL {
 				go pkg.PostTelegramImage(bot, msg.URL, msg.Message)
 			} else {
-				go pkg.PostTelegramMessage(bot, msg.Message)
+				pkg.PostTelegramMessage(bot, msg.Message)
 			}
 			time.Sleep(time.Second * 3)
 		}
