@@ -18,25 +18,21 @@ func main() {
 		BotToken: os.Getenv("TG_BOT_TOKEN"),
 		ChatId:   os.Getenv("TG_CHAT_ID"),
 	}
-
-	// creds := pkg.TwtCredentials{
-	// 	AccessToken:       os.Getenv("TWITTER_ACCESS_TOKEN"),
-	// 	AccessTokenSecret: os.Getenv("TWITTER_ACCESS_SECRET"),
-	// 	ConsumerKey:       os.Getenv("TWITTER_API_KEY"),
-	// 	ConsumerSecret:    os.Getenv("TWITTER_API_SECRET"),
-	// }
-
-	// pkg.SearchTweets(creds)
+	// log.Info(bot.ChatId + "92383")
 
 	for {
 		data := pkg.SearchV2()
-
+		// log.Println(data)
 		for _, msg := range data {
-			pkg.PostTelegram(bot, msg)
-			time.Sleep(time.Second * 5)
+			if msg.HasURL {
+				go pkg.PostTelegramImage(bot, msg.URL, msg.Message)
+			} else {
+				go pkg.PostTelegramMessage(bot, msg.Message)
+			}
+			time.Sleep(time.Second * 1)
 		}
 
-		time.Sleep(time.Minute * 5)
+		time.Sleep(time.Minute * 2)
 	}
 
 }

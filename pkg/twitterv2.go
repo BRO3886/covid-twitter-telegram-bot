@@ -3,11 +3,13 @@ package pkg
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	twitter "github.com/g8rswimmer/go-twitter/v2"
 )
@@ -16,11 +18,17 @@ type authorize struct {
 	Token string
 }
 
+type TelegramTweet struct {
+	Message string
+	URL     string
+	HasURL  bool
+}
+
 func (a authorize) Add(req *http.Request) {
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", a.Token))
 }
 
-func SearchV2() []string {
+func SearchV2() []TelegramTweet {
 	token := os.Getenv("TWITTER_BEARER_TOKEN")
 
 	client := &twitter.Client{
@@ -31,8 +39,9 @@ func SearchV2() []string {
 		Host:   "https://api.twitter.com",
 	}
 	opts := twitter.TweetRecentSearchOpts{
-		Expansions:  []twitter.Expansion{twitter.ExpansionEntitiesMentionsUserName, twitter.ExpansionAuthorID},
-		TweetFields: []twitter.TweetField{twitter.TweetFieldCreatedAt, twitter.TweetFieldConversationID, twitter.TweetFieldText},
+		Expansions:  []twitter.Expansion{twitter.ExpansionEntitiesMentionsUserName, twitter.ExpansionAuthorID, twitter.ExpansionAttachmentsMediaKeys},
+		TweetFields: []twitter.TweetField{twitter.TweetFieldCreatedAt, twitter.TweetFieldAttachments, "entities"},
+		MediaFields: []twitter.MediaField{twitter.MediaFieldPreviewImageURL, twitter.MediaFieldURL},
 		StartTime:   time.Now().Add(-time.Hour * 3),
 	}
 
@@ -49,12 +58,26 @@ func SearchV2() []string {
 
 	tweets := tweetResponse.Raw.Tweets
 
-	messages := []string{}
+	r := regexp.MustCompile("@")
+
+	messages := []TelegramTweet{}
 	for _, tweet := range tweets {
-		message := fmt.Sprintf("https://twitter.com/%s/status/%s\n", tweet.AuthorID, tweet.ID)
+		t := TelegramTweet{}
+
+		urls := tweet.Entities.URLs
+		// log.Info("urls length is ", len(urls))
+		if len(urls) > 0 {
+			log.Println("has image")
+			t.HasURL = true
+			t.URL = urls[0].DisplayURL
+		}
+
+		message := fmt.Sprintf("https://twitter.com/%s/status/%s\n\n", tweet.AuthorID, tweet.ID)
 		fmt.Println(message)
-		message += strings.Replace(tweet.Text, "RT ", "", 1)
-		messages = append(messages, message)
+		message += r.ReplaceAllString(strings.Replace(tweet.Text, "RT ", "", 1), "")
+		t.Message = message
+
+		messages = append(messages, t)
 	}
 
 	return messages
