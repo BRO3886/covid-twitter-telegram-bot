@@ -37,8 +37,9 @@ func SearchV2() []string {
 	}
 
 	reqStrings := []string{
-		`verified(Delhi OR Noida OR GURGAON) (bed OR beds OR icu OR oxygen OR ventilator OR ventilators or plasma) available -"not verified" -"unverified" -"needed" -"need" -"required "`,
+		`verified (Delhi OR Noida OR GURGAON) (bed OR beds OR icu OR oxygen OR ventilator OR ventilators OR plasma OR remedesevir OR remedesivir OR medicine) available -"not verified" -"unverified" -"needed" -"need" -"required"`,
 		`verified (Indore) (icu OR ventilator OR ventilators ) available -"not verified" -"unverified" -"needed" -"need" -"required "`,
+		`apple iphone`, //test
 	}
 
 	tweetResponse, err := client.TweetRecentSearch(context.Background(), reqStrings[0], opts)
