@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"regexp"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -20,13 +21,14 @@ func PostTelegramMessage(tel Telegram, msg string) {
 	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", tel.BotToken)
 
 	body := map[string]interface{}{
-		"chat_id": tel.ChatId,
-		"text":    msg,
+		"chat_id":    tel.ChatId,
+		"text":       getTGEscapedMardown(msg),
+		"parse_mode": "Markdown",
 	}
 
 	bodyBytes, err := json.Marshal(body)
 	if err != nil {
-		log.Error("Error marshiling", err.Error())
+		log.Error("Error marshaling: ", err.Error())
 	}
 
 	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(bodyBytes))
@@ -83,4 +85,9 @@ func checkResponse(resp *http.Response, imgURL, message string) {
 		bbytes, _ := ioutil.ReadAll(resp.Body)
 		log.Error(string(bbytes))
 	}
+}
+
+func getTGEscapedMardown(msg string) string {
+	r := strings.NewReplacer("*", "\\*", "_", "\\_", "`", "\\`")
+	return r.Replace(msg)
 }
