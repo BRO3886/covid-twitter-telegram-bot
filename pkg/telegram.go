@@ -46,14 +46,14 @@ func PostTelegramMessage(tel Telegram, msg string) {
 }
 
 func PostTelegramImage(tel Telegram, imgURL, caption string) {
-	r := regexp.MustCompile(`https:\/\/t\.co\/[a-zA-Z0-9]+`)
+	r := regexp.MustCompile(`https:\/\/t\.co\/[a-zA-Z0-9]+|&amp;`)
 
 	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendPhoto", tel.BotToken)
 
 	body := map[string]interface{}{
 		"chat_id": tel.ChatId,
 		"photo":   imgURL,
-		"caption": r.ReplaceAllLiteralString(caption, ""),
+		"caption": getTGEscapedMardown(r.ReplaceAllLiteralString(caption, "")),
 	}
 
 	bodyBytes, err := json.Marshal(body)
