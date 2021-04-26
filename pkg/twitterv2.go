@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"net/url"
 	"os"
 	"regexp"
 	"strings"
@@ -46,12 +47,12 @@ func SearchV2() []TelegramTweet {
 	}
 
 	reqStrings := []string{
-		`verified (Delhi OR Noida OR GURGAON) (bed OR beds OR icu OR oxygen OR ventilator OR ventilators OR plasma OR remdesivir OR remedesevir OR remedesivir OR medicine) available -"not verified" -"unverified" -"needed" -"need" -"required"`,
+		`verified (Delhi OR Noida OR GURGAON) (bed OR beds OR icu OR oxygen OR ventilator OR ventilators OR plasma OR remdesivir OR remedesevir OR remedesivir OR medicine) available -"not verified" -"unverified" -"needed" -"need" -"required" -is"retweet"`,
 		`verified (Indore) (icu OR ventilator OR ventilators ) available -"not verified" -"unverified" -"needed" -"need" -"required "`,
 		`apple iphone`, //test
 	}
 
-	tweetResponse, err := client.TweetRecentSearch(context.Background(), reqStrings[0], opts)
+	tweetResponse, err := client.TweetRecentSearch(context.Background(), url.QueryEscape(reqStrings[0]), opts)
 	if err != nil {
 		log.Panicf("tweet lookup error: %v", err)
 	}

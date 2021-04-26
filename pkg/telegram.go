@@ -12,12 +12,12 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-type Telegram struct {
+type TelegramBot struct {
 	ChatId   string
 	BotToken string
 }
 
-func PostTelegramMessage(tel Telegram, msg string) {
+func PostTelegramMessage(tel TelegramBot, msg string) {
 	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", tel.BotToken)
 
 	body := map[string]interface{}{
@@ -45,7 +45,7 @@ func PostTelegramMessage(tel Telegram, msg string) {
 	checkResponse(resp, "", msg)
 }
 
-func PostTelegramImage(tel Telegram, imgURL, caption string) {
+func PostTelegramImage(tel TelegramBot, imgURL, caption string) {
 	r := regexp.MustCompile(`https:\/\/t\.co\/[a-zA-Z0-9]+|&amp;`)
 
 	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendPhoto", tel.BotToken)

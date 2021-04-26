@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-	"time"
 
 	"github.com/BRO3886/covid-twt-telegram/pkg"
 	"github.com/joho/godotenv"
@@ -14,25 +13,32 @@ func main() {
 		log.Panic(err)
 	}
 
-	bot := pkg.Telegram{
+	bot := pkg.TelegramBot{
 		BotToken: os.Getenv("TG_BOT_TOKEN"),
 		ChatId:   os.Getenv("TG_CHAT_ID"),
 	}
+
+	twtClient := pkg.TwitterClient{
+		Token: os.Getenv("TWITTER_BEARER_TOKEN"),
+	}
+
+	pkg.StreamSearch(twtClient, bot)
+
 	// log.Info(bot.ChatId + "92383")
 
-	for {
-		data := pkg.SearchV2()
-		// log.Println(data)
-		for _, msg := range data {
-			if msg.HasURL {
-				pkg.PostTelegramImage(bot, msg.URL, msg.Message)
-			} else {
-				pkg.PostTelegramMessage(bot, msg.Message)
-			}
-			time.Sleep(time.Second * 4)
-		}
+	// for {
+	// 	data := pkg.SearchV2()
+	// 	// log.Println(data)
+	// 	for _, msg := range data {
+	// 		if msg.HasURL {
+	// 			pkg.PostTelegramImage(bot, msg.URL, msg.Message)
+	// 		} else {
+	// 			pkg.PostTelegramMessage(bot, msg.Message)
+	// 		}
+	// 		time.Sleep(time.Second * 4)
+	// 	}
 
-		time.Sleep(time.Minute * 2)
-	}
+	// 	time.Sleep(time.Minute * 2)
+	// }
 
 }
