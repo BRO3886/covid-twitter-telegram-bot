@@ -93,6 +93,7 @@ type TwitterClient struct {
 
 func StreamSearch(twitter TwitterClient, bot TelegramBot) {
 	r := regexp.MustCompile("@")
+	loc, _ := time.LoadLocation("Asia/Kolkata")
 
 	query := "tweet.fields=attachments,created_at,entities,author_id&expansions=attachments.media_keys,author_id&media.fields=duration_ms,height,media_key,preview_image_url,public_metrics,type,url,width"
 	url := fmt.Sprintf("https://api.twitter.com/2/tweets/search/stream?%s", query)
@@ -134,7 +135,7 @@ func StreamSearch(twitter TwitterClient, bot TelegramBot) {
 			continue
 		}
 
-		message := fmt.Sprintf("[Twitter Link](https://twitter.com/%s/status/%s/)\n\n🕘 %s %s\n\n", tweet.Includes.Users[0].Username, tweet.Data.ID, tweet.Data.CreatedAt.Format("Mon, Jan 2"), tweet.Data.CreatedAt.Format(time.Kitchen))
+		message := fmt.Sprintf("[Twitter Link](https://twitter.com/%s/status/%s/)\n\n🕘 %s %s\n\n", tweet.Includes.Users[0].Username, tweet.Data.ID, tweet.Data.CreatedAt.In(loc).Format("Mon, Jan 2"), tweet.Data.CreatedAt.In(loc).Format(time.Kitchen))
 		message += fmt.Sprintf("%s on Twitter:\n", tweet.Includes.Users[0].Name)
 		log.Info(message, tweet.Data.Text)
 		message += r.ReplaceAllString(tweet.Data.Text, "")
