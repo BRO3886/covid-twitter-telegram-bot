@@ -124,6 +124,7 @@ func StreamSearch(twitter TwitterClient, bot TelegramBot) {
 			continue
 		}
 
+		//mostly never executes ig, have to check
 		if len(line) == 0 {
 			continue
 		}
@@ -140,6 +141,7 @@ func StreamSearch(twitter TwitterClient, bot TelegramBot) {
 		log.Info(link, message, tweet.Data.Text)
 		message += r.ReplaceAllString(tweet.Data.Text, " ")
 
+		//TODO: add support for images (not high priority)
 		// urls := tweet.Data.Entities.Urls
 		// if len(urls) > 0 {
 		// 	log.Println("probably has image")
