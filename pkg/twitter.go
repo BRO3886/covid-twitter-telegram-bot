@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net/http"
 	"regexp"
-	"strings"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -135,9 +134,10 @@ func StreamSearch(twitter TwitterClient, bot TelegramBot) {
 			continue
 		}
 
-		message := fmt.Sprintf("[Twitter Link](https://twitter.com/%s/status/%s/)\n\n🕘: %s %s\n\n", tweet.Data.AuthorID, tweet.Data.ID, tweet.Data.CreatedAt.Local().Format("Mon, Jan 2"), tweet.Data.CreatedAt.Local().Format(time.Kitchen))
+		message := fmt.Sprintf("[Twitter Link](https://twitter.com/%s/status/%s/)\n\n🕘 %s %s\n\n", tweet.Includes.Users[0].Username, tweet.Data.ID, tweet.Data.CreatedAt.Local().Format("Mon, Jan 2"), tweet.Data.CreatedAt.Local().Format(time.Kitchen))
+		message += fmt.Sprintf("%s on Twitter:\n", tweet.Includes.Users[0].Name)
 		log.Info(message, tweet.Data.Text)
-		message += r.ReplaceAllString(strings.Replace(tweet.Data.Text, "RT ", "", 1), "")
+		message += r.ReplaceAllString(tweet.Data.Text, "")
 
 		// urls := tweet.Data.Entities.Urls
 		// if len(urls) > 0 {
