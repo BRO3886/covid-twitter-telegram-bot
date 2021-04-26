@@ -120,7 +120,7 @@ func StreamSearch(twitter TwitterClient, bot TelegramBot) {
 		line, err := reader.ReadBytes('\n')
 		if err != nil {
 			log.Error("Error reading lines: ", err)
-			time.Sleep(time.Second * 2)
+			time.Sleep(time.Second * 1)
 			continue
 		}
 
@@ -131,7 +131,7 @@ func StreamSearch(twitter TwitterClient, bot TelegramBot) {
 		tweet, err := UnmarshalData(line)
 		if err != nil {
 			log.Error("error unmarshaling: ", err)
-			time.Sleep(time.Second * 2)
+			time.Sleep(time.Second * 1)
 			continue
 		}
 
@@ -147,7 +147,7 @@ func StreamSearch(twitter TwitterClient, bot TelegramBot) {
 		// }
 
 		PostTelegramMessage(bot, message)
-		time.Sleep(time.Second * 2)
+		time.Sleep(time.Second * 1)
 	}
 
 }
