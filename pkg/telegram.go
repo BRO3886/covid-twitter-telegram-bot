@@ -17,12 +17,12 @@ type TelegramBot struct {
 	BotToken string
 }
 
-func PostTelegramMessage(tel TelegramBot, msg string) {
+func PostTelegramMessage(tel TelegramBot, link, msg string) {
 	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", tel.BotToken)
 
 	body := map[string]interface{}{
 		"chat_id":    tel.ChatId,
-		"text":       getTGEscapedMardown(msg),
+		"text":       link + getTGEscapedMardown(msg),
 		"parse_mode": "Markdown",
 	}
 

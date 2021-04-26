@@ -26,6 +26,10 @@ func main() {
 
 	pkg.StreamSearch(twtClient, bot)
 
+	// testLink := "[Link](https://twitter.com/anonyy_mouse/status/1385842298198499334)"
+	// testMessage := "@DammnGirll #Ventilator Beds are Available !\n\nLocation :- New Delhi. NCR\n\nContact : 96545 - 35285 \n\n#Verified by @Bae_Hey_Yaa at 6:53 Pm on 26-04-2021. 🔥\n\n(Please call on this &amp; ask if they have icu beds.)"
+	// pkg.PostTelegramMessage(bot, testLink, testMessage)
+
 	// log.Info(bot.ChatId + "92383")
 
 	// for {

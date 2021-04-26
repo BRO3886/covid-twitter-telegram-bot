@@ -134,11 +134,11 @@ func StreamSearch(twitter TwitterClient, bot TelegramBot) {
 			time.Sleep(time.Second * 2)
 			continue
 		}
-
-		message := fmt.Sprintf("[Twitter Link](https://twitter.com/%s/status/%s/)\n\n🕘 %s %s\n\n", tweet.Includes.Users[0].Username, tweet.Data.ID, tweet.Data.CreatedAt.In(loc).Format("Mon, Jan 2"), tweet.Data.CreatedAt.In(loc).Format(time.Kitchen))
+		link := fmt.Sprintf("[Twitter Link](https://twitter.com/%s/status/%s/)", tweet.Includes.Users[0].Username, tweet.Data.ID)
+		message := fmt.Sprintf("\n\n🕘 %s %s\n\n", tweet.Data.CreatedAt.In(loc).Format("Mon, Jan 2"), tweet.Data.CreatedAt.In(loc).Format(time.Kitchen))
 		message += fmt.Sprintf("%s on Twitter:\n", tweet.Includes.Users[0].Name)
-		log.Info(message, tweet.Data.Text)
-		message += r.ReplaceAllString(tweet.Data.Text, "")
+		log.Info(link, message, tweet.Data.Text)
+		message += r.ReplaceAllString(tweet.Data.Text, " ")
 
 		// urls := tweet.Data.Entities.Urls
 		// if len(urls) > 0 {
@@ -146,7 +146,7 @@ func StreamSearch(twitter TwitterClient, bot TelegramBot) {
 		// 	urls[0].
 		// }
 
-		PostTelegramMessage(bot, message)
+		PostTelegramMessage(bot, link, message)
 		time.Sleep(time.Second * 1)
 	}
 

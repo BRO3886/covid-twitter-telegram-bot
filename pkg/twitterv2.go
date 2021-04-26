@@ -73,7 +73,7 @@ func SearchV2() []TelegramTweet {
 			t.URL = urls[0].DisplayURL
 		}
 
-		message := fmt.Sprintf("[Twitter Link](https://twitter.com/%s/status/%s/)\n\n", tweet.AuthorID, tweet.ID)
+		message := fmt.Sprintf(`<a href="https://twitter.com/%s/status/%s/">Twitter Link</a>\n\n`, tweet.AuthorID, tweet.ID)
 		fmt.Println(message)
 		message += r.ReplaceAllString(strings.Replace(tweet.Text, "RT ", "", 1), "")
 		t.Message = message
