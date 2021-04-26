@@ -13,3 +13,9 @@ A simple bot that uses [Twitter's Stream Search API](https://developer.twitter.c
 verified (delhi OR Delhi OR Noida OR GURGAON) (bed OR beds OR icu OR oxygen OR ventilator OR ventilators OR plasma OR remdesivir OR remedesevir OR remedesivir OR medicine) available -\"not verified\" -unverified -needed -need -required -is:retweet -is:reply (#covidresources OR #delhicovid OR #covidsos OR #covidhelp OR #covidemergency OR #delhineedsoxygen OR #oxygenbeds OR #delhincr OR #remdesivir OR #Toclizumab OR #delhi) #verified
 ```
 * See [Filtered Stream (Twitter API v2)](https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/introduction) to see how to add filtering rules
+
+
+
+> Please ⭐ the repo if this helped you :)
+
+The code is very shitty I wrote it in between exams 😭
